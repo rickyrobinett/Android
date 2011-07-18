@@ -11,7 +11,7 @@
 <script type="text/javascript" src="script/Money.js"></script>
 <script type="text/javascript" src="script/Ordrin.js"></script>
 <!-- Jquery Mobile -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <script type = "text/javascript" charset="utf-8" src = "http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.js"></script>
 <link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.css" />
 <!-- Application logic -->
@@ -24,7 +24,7 @@
 	<div data-role = "page" id = "restaurant">
 		<div data-role = "header"><h1>Ordr.in</h1></div>
 		<div data-role = "content">
-			<a href = "#login" data-rel = "dialog">Click Me</a>
+			<a href = "#login" data-rel = "dialog" data-transition = "slidedown">Click Me</a>
 		</div>
 	</div>
 	<div data-role = "page" id = "login">
@@ -49,7 +49,7 @@
 			<div data-role = "button" id = "errorClose_btn" data-icon = "check">Ok</div>
 		</div>
 	</div>
-	<div data-role = "dialog" id = "createAccount">
+	<div data-role = "page" id = "createAccount">
 		<div data-role = "header"><h1>New Account</h1></div>
 		<div data-role = "content">
 			<div data-role = "fieldcontain">
@@ -69,6 +69,14 @@
 				<input type x= "text" name = "last" id = "createLastName"></input>
 			</div>
 			<div data-role = "button" id = "postAccount_btn" data-icon = "check">Create</div>
+		</div>
+	</div>
+	<div data-role = "page" id = "createAddress">
+		<div data-role = "header"><h1>New Address</h1></div>
+		<div data-role = "content">
+			<div data-role = "fieldcontain">
+				<label for = "name">Name:</label>
+			</div>
 		</div>
 	</div>
 </body>
