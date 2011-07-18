@@ -1,8 +1,8 @@
 $(window).load(function(){
 	Ordrin.initialize("shds1d6c4BGDGs8", "http://nn2.deasil.com"); // for now this will be deasil
 	 console.log("load");
-	$("body").append("<a href = '#login' id = 'removeMe' data-rel = 'dialog' data-transition = 'pop'></a>");
-	$("#removeMe").click().remove();
+	//$("body").append("<a href = '#login' id = 'removeMe' data-rel = 'dialog' data-transition = 'pop'></a>");
+	//$("#removeMe").click().remove();
 	 $("#login_btn").click(function(){
 		var email = $("#loginEmail").val();
 		var pass  = $("#loginPassword").val();
@@ -25,6 +25,16 @@ $(window).load(function(){
 				
 		});
 	});
+	var time = new Date();
+	time.setASAP();
+	var place = new Address("1 Main Street", "", "Weston", "32501")
+	Ordrin.r.deliveryList(time, place, function(data){
+		var markup = "<li><b>${na}</b></li>";
+		$.template("restListTemp", markup);
+		data = JSON.parse(data);
+		$.tmpl("restListTemp", data).appendTo("#restList");
+		$("#restList").listview("refresh");
+	})
 	$("#createAccount_btn").click(function(){
 		//$.mobile.changePage($("#createAccount"), "slidedown", false, true);
 		$("#postAccount_btn").click(function(){
