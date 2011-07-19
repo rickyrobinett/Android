@@ -22,16 +22,16 @@
 <link rel = "stylesheet" href = "css/main.css" />
 
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
-    <li onclick="getRestDetails('${index}')">
-    	<a style="width: 85%;">
-			<h3 style="width:75%">${na}</h3>
-			<p>${ad}</p>
+    <li>
+    	<a href="#restDetails">
+    		<h3>${na}</h3>
+    		<p>${ad}</p>
 			{{if isDel}}
-				<p class="ui-li-aside" style="float:right; width=25%; padding-top:8px;"><strong>Delivering Now</strong></p>
+				<p class="ui-li-aside"><strong>Delivering Now</strong></p>
 			{{else}}
-				<p class="ui-li-aside" style="float:right; width:25%; padding-top: 8px;">Not Delivering</p>
+				<p class="ui-li-aside">Not Delivering</p>
 			{{/if}}
-		</a>
+    	</a>
     </li>
 </script>
 
@@ -41,8 +41,9 @@
 	<div data-role = "page" id = "restaurant">
 		<div data-role = "header"><h1>Ordr.in</h1></div>
 		<div data-role = "content">
-			<ul data-role="listview" id="restList" data-theme="c">
+			<ul data-role="listview" id="restList" data-theme="g">
 			</ul>
+			<a href = "#login" data-rel = "dialog" data-role="button">Click Me</a><br/>
 		</div>
 	</div>
 	<div data-role = "page" id = "login">
@@ -126,28 +127,9 @@
 		</div>
 	</div>
 	<div id="restDetails" data-role="page">
-		<div data-role="header"><h1 id="restName"></h1></div>
+		<div data-role="header" id="restName"></div>
 		<div data-role="content">
-			<div data-role="collapsible">
-				<h3>Restaurant Information</h3>
-				<div class="details-pane">
-					<fieldset class="ui-grid-a">
-						<span class="ui-block-a" style="text-align: center;">Address:</span>
-						<span class="ui-block-b" style="text-align: center;" id="rAddress"></span>
-					</fieldset
-					<br />
-					<hr />
-					<fieldset class="ui-grid-a">
-						<span class="ui-block-a" style="text-align: center;">Minimum order for delivery:</span>
-						<span class="ui-block-b" style="text-align: center" id="minimumDelivery"></span>
-					</fieldset>
-					<hr />
-					<fieldset class="ui-grid-a">
-						<span class="ui-block-a" style="text-align: center;">Estimated delivery time:</span>
-						<span class="ui-block-b" style="text-align: center" id="estimatedDelivery"></span>
-					</fieldset>
-				</div>
-			</div>
+			contact!
 		</div>
 	</div>
 </body>

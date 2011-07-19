@@ -4,7 +4,7 @@
  * 		 Save user account (use phonegap for local data storage)
  * 		 Save previous address (use phonegap for local data storage)
  */
-var currEmail, currPass;
+var currEmail, currPass, delList;
 $(window).load(function(){
 	Ordrin.initialize("shds1d6c4BGDGs8", "http://nn2.deasil.com"); // for now this will be deasil
 	$("body").append("<a href = '#login' id = 'removeMe' data-rel = 'dialog' data-transition = 'pop'></a>");
@@ -103,7 +103,24 @@ function getAddresses(){
 function getRestaurantList(place, time){
 	Ordrin.r.deliveryList(time, place, function(data) {
 		data = JSON.parse(data);
+		for(var i = 0; i< data.length; i++) {
+			data[i].index = i;
+		}
+		delList = data;
 		$("#restListTemplate").tmpl(data).appendTo("#restList");
 		$("#restList").listview('refresh');
 	})
+}
+
+function getRestDetails(index){
+	$.mobile.pageLoading();
+	var currRest = delList[index];
+	Ordrin.r.details(currRest.id, function(data){
+		data = JSON.parse(data);
+		$("#restName").html(data.name);
+		$("#rAddress").html(data.addr + " " + data.city + ", " + data.state + " " +data.postal_code);
+		$("#minimumDelivery").html("$" + currRest.mino);
+		$("#estimatedDelivery").html(currRest.del ? currRest.del : "0" + " minutes");
+		$.mobile.changePage("#restDetails");
+	});
 }
