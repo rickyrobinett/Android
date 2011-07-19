@@ -42,7 +42,14 @@
 <body>
 	
 	<div data-role = "page" id = "restaurant">
-		<div data-role = "header"><h1>Ordr.in</h1></div>
+		<div data-role = "header">
+			<h1>Ordr.in</h1>
+			<a href = "#" id = 'restaurantSelectorParent' class = 'ui-btn-right'>
+				<select name="select-choice-a" id="restaurantTypes_selector" data-native-menu="false">
+					<option value = "all">All</option>
+				</select>
+			</a>
+		</div>
 		<div data-role = "content">
 			<ul data-role="listview" id="restList" data-theme="g">
 			</ul>

@@ -11,6 +11,9 @@ $(window).load(function(){
 	$("body").append("<a href = '#login' id = 'removeMe' data-rel = 'dialog' data-transition = 'pop'></a>");
 	$("#removeMe").click().remove();
 	
+	$("#restaurantSelectorParent").removeClass("ui-btn ui-btn-corner-all ui-shadow ui-btn-up-a")
+	$("#restaurantSelectorParent>.ui-btn-inner").removeClass("ui-btn-inner");
+	
 	 $("#login_btn").click(function(){
 		var email = $("#loginEmail").val();
 		var pass  = $("#loginPassword").val();
@@ -55,6 +58,10 @@ $(window).load(function(){
 			}
 		});
 	});
+	/*$("#restaurant").bind("pagebeforeshow", function(){
+		$("#restaurantSelectorParent").removeClass("ui-btn ui-btn-corner-all ui-shadow ui-btn-up-a")
+		$("#restaurantSelectorParent>.ui-btn-inner").removeClass("ui-btn-inner");
+	}); this should work just as well by placing it in body.load */
 });
 
 function getAddresses(){
@@ -109,6 +116,19 @@ function getRestaurantList(place, time){
 		data = JSON.parse(data);
 		$("#restListTemplate").tmpl(data).appendTo("#restList");
 		$("#restList").listview('refresh');
+		var restTypes = {};
+		for (var i = 0; i < data.length; i++){
+			for (var j = 0; j < data[i].cu.length; j++){
+				if (restTypes[j])
+					restTypes[j]++;
+				else
+					restTypes[j] = 1;
+			}
+		}
+		for (i = 0; i < restTypes.length; i++){
+			console.log("<option value = '" + i + "'>" + restTypes[i] + "></option>");
+			$("#restaurantTypes_selector").append("<option value = '" + i + "'>" + restTypes[i] + "></option>");
+		}
 	})
 }
 
