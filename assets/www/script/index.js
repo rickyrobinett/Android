@@ -97,7 +97,7 @@ function getAddresses(){
 		}else{ // the user has more than 1 address so open a dialog to let them choose which address to use and the get the restaurant list. Possibly save their choice?
 			openDialog("body", "selectAddress", "slidedown");
 			$("#selectAddress").bind("pageshow", {"data": data}, function(event){
-				var markup = "<li><a href = '#restaurant' onclick = 'getRestaurantList(new Address(\"${addr}\", \"${addr2}\", \"${city}\", \"${zip}\", \"${state}\", \"${phone}\", \"${nick}\"))'>${nick}</a></li>";
+				var markup = "<li><a href = '#restaurant' onclick = 'getRestaurantList(new Address(\"${addr}\", \"${addr2}\", \"${city}\", \"${zip}\", \"${state}\", \"${phone}\", \"${nick}\"), \"ASAP\")'>${nick}</a></li>";
 				$.template("addrListTemp", markup);
 				$.tmpl("addrListTemp", data).appendTo("#addressList");
 				$("#addressList").listview("refresh");
@@ -111,6 +111,10 @@ function openDialog(parent, name, transition){
 }
 
 function getRestaurantList(place, time){
+	if (time == "ASAP"){
+		time = new Date();
+		time.setASAP();
+	}
 	Ordrin.r.deliveryList(time, place, function(data) {
 		data = JSON.parse(data);
 		$("#restListTemplate").tmpl(data).appendTo("#restList");
