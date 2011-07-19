@@ -29,7 +29,7 @@ $(window).load(function(){
 		});
 	});
 	
-	var time = new Date();
+	/*var time = new Date();
 	time.setASAP();
 	var place = new Address("1 Main Street", "", "Weston", "32501")
 	Ordrin.r.deliveryList(time, place, function(data){
@@ -38,7 +38,7 @@ $(window).load(function(){
 		data = JSON.parse(data);
 		$.tmpl("restListTemp", data).appendTo("#restList");
 		$("#restList").listview("refresh");
-	});
+	});*/
 	
 	$("#postAccount_btn").click(function(){
 		currEmail = $("#createEmail").val();
@@ -91,9 +91,19 @@ function getAddresses(){
 		data = JSON.parse(data);
 		if (data.length == 1){ // the user only has one address so convert the object and send it straight to the resturant list
 			var place = new Address(data[0].addr, data[0].addr2, data[0].city, data[0].zip, data[0].state, data[0].phone, data[0].nick);
-			getRestaurantlist(place, "ASAP");
+			var time = new Date();
+			time.setASAP();
+			getRestaurantList(place, time);
 		}else{ // the user has more than 1 address so open a dialog to let them choose which address to use and the get the restaurant list. Possibly save their choice?
 			
 		}
 	});
+}
+
+function getRestaurantList(place, time){
+	Ordrin.r.deliveryList(time, place, function(data) {
+		data = JSON.parse(data);
+		$("#restListTemplate").tmpl(data).appendTo("#restList");
+		$("#restList").listview('refresh');
+	})
 }

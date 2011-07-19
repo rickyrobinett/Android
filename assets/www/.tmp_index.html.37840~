@@ -21,20 +21,6 @@
 <script type = "text/javascript" charset="utf-8" src = "script/index.js"></script>
 <link rel = "stylesheet" href = "css/main.css" />
 
-<script id="restListTemplate" type="text/x-jquery-tmpl"> 
-    <li>
-    	<a href="#restDetails">
-    		<h3>${na}</h3>
-    		<p>${ad}</p>
-			{{if isDel}}
-				<p class="ui-li-aside"><strong>Delivering Now</strong></p>
-			{{else}}
-				<p class="ui-li-aside">Not Delivering</p>
-			{{/if}}
-    	</a>
-    </li>
-</script>
-
 </head>
 <body>
 	
@@ -96,7 +82,7 @@
 		<div data-role = "header"><h1>New Address</h1></div>
 		<div data-role = "content">
 			<div data-role = "fieldcontain">
-				<label for = "name" class = "ui-input-text">Nickname (e.g. Home, Work, etc...):</label>
+				<label for = "name" class = "ui-input-text">Name:</label>
 				<input type = "text" name = "name" id = "createAddressName"></input>
 			</div>
 			<div data-role = "fieldcontain">
