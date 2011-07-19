@@ -16,30 +16,27 @@ $(window).load(function(){
 		var pass  = $("#loginPassword").val();
 		$.mobile.pageLoading();
 		Ordrin.u.setCurrAcct(email, pass);
-		Ordrin.u.getAcct(function(data){
-			data = JSON.parse(data);
-			if (data._error != undefined && data._error != 0){
-				$.mobile.changePage($("#error"), "pop", false, true);
-				$("#errorMsg").html(data.msg);
-			}else{
-				$("#createAccount").append("<a href = '#restaurant' data-rel = 'back' id = 'removeMe'></a>");
-				$("#removeMe").click().remove();
-				getAddresses();
-			}
-				
-		});
+		try{
+			Ordrin.u.getAcct(function(data){
+				data = JSON.parse(data);
+				if (data._error != undefined && data._error != 0){
+					error(data.msg);
+				}else{
+					$("#createAccount").append("<a href = '#restaurant' data-rel = 'back' id = 'removeMe'></a>");
+					$("#removeMe").click().remove();
+					getAddresses();
+				}
+					
+			}, function(status){
+				console.log("error");
+				if (status == 401){
+					error("Username and/or password are incorrect")
+				}
+			});
+		}catch(e){
+			console.log("Exception " + e);
+		}
 	});
-	
-	/*var time = new Date();
-	time.setASAP();
-	var place = new Address("1 Main Street", "", "Weston", "32501")
-	Ordrin.r.deliveryList(time, place, function(data){
-		var markup = "<li><b>${na}</b></li>";
-		$.template("restListTemp", markup);
-		data = JSON.parse(data);
-		$.tmpl("restListTemp", data).appendTo("#restList");
-		$("#restList").listview("refresh");
-	});*/
 	
 	$("#postAccount_btn").click(function(){
 		currEmail = $("#createEmail").val();
@@ -49,8 +46,7 @@ $(window).load(function(){
 			data = JSON.parse(data);
 			$.mobile.pageLoading(true);
 			if (data._error != undefined && data._error != 0){
-				$.mobile.changePage($("#error"), "pop", false, true);
-				$("#errorMsg").html(data.msg); // make this corresspond to the error from the server
+				error(data.msg)
 			}else{
 				$("#createAccount").append("<a href = '#restaurant' id = 'removeMe'></a>");
 				$("#removeMe").click().remove();
@@ -58,11 +54,6 @@ $(window).load(function(){
 				getAddresses();
 			}
 		});
-	});
-	
-	// set the button in the error dialog to always close it (we should be able to override this on an as needed basis)
-	$("#errorClose_btn").click(function(){
-		$("#error").dialog("close");
 	});
 });
 
@@ -76,9 +67,7 @@ function getAddresses(){
 				Ordrin.u.updateAddress(place, function(data){
 					data = JSON.parse(data);
 					if (data._error != undefined && data._error != 0){
-						$("body").append("<a href = '#error' data-rel = 'dialog' id = 'removeMe'></a>");
-						$("#removeMe").click().remove();
-						$("#errorMsg").html(data.msg);
+						error(data.msg);
 					}else{
 						$("#createAddress").append("<a href = '#restaurant' id = 'removeMe'></a>");
 						$("#removeMe").click().remove();
@@ -97,8 +86,9 @@ function getAddresses(){
 		}else{ // the user has more than 1 address so open a dialog to let them choose which address to use and the get the restaurant list. Possibly save their choice?
 			openDialog("body", "selectAddress", "slidedown");
 			$("#selectAddress").bind("pageshow", {"data": data}, function(event){
-				var markup = "<li><a href = '#restaurant' onclick = 'getRestaurantList(new Address(\"${addr}\", \"${addr2}\", \"${city}\", \"${zip}\", \"${state}\", \"${phone}\", \"${nick}\"), \"ASAP\")'>${nick}</a></li>";
+				var markup = "<li class = 'addressSelector'><a href = '#restaurant' onclick = 'getRestaurantList(new Address(\"${addr}\", \"${addr2}\", \"${city}\", \"${zip}\", \"${state}\", \"${phone}\", \"${nick}\"), \"ASAP\")'>${nick}</a></li>";
 				$.template("addrListTemp", markup);
+				$("#addressList").empty();
 				$.tmpl("addrListTemp", data).appendTo("#addressList");
 				$("#addressList").listview("refresh");
 			});
@@ -120,4 +110,11 @@ function getRestaurantList(place, time){
 		$("#restListTemplate").tmpl(data).appendTo("#restList");
 		$("#restList").listview('refresh');
 	})
+}
+
+function error(msg){
+	$.mobile.pageLoading(true);
+	$("body").append("<a href = '#error' data-rel = 'dialog' id = 'removeMe'></a>");
+	$("#removeMe").click().remove();
+	$("#errorMsg").html(msg);
 }

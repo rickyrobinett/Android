@@ -18,15 +18,15 @@
 <!-- Jquery Mobile -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script type = "text/javascript" charset="utf-8" src = "http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.js"></script>
-<link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.css" />
+<script type = "text/javascript" charset="utf-8" src = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.js"></script>
+<link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.css" />
 <!-- Application logic -->
 <script type = "text/javascript" charset="utf-8" src = "script/index.js"></script>
 <link rel = "stylesheet" href = "css/main.css" />
 
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
     <li>
-    	<a href="#restDetails">
+    	<a href="#restDetails" data-role = 'button'>
     		<h3>${na}</h3>
     		<p>${ad}</p>
 			{{if isDel}}
@@ -68,7 +68,7 @@
 		<div data-role = "header"><h1>Error</h1></div>
 		<div data-role = "content">
 			<p id = "errorMsg"></p>
-			<div data-role = "button" id = "errorClose_btn" data-icon = "check">Ok</div>
+			<a href = "#" data-role = "button" id = "errorClose_btn" data-icon = "check" data-rel = "back">Ok</a>
 		</div>
 	</div>
 	<div data-role = "page" id = "createAccount">
