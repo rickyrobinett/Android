@@ -3,6 +3,7 @@
  * 		 encapsulate the code? Something needs to be done to make it less messy. Maybe just move the handlers into their own functions, possible in seperate files
  * 		 Save user account (use phonegap for local data storage)
  * 		 Save previous address (use phonegap for local data storage)
+ * 		 Switch to opening dialogs with new functions
  */
 var currEmail, currPass;
 $(window).load(function(){
@@ -69,8 +70,7 @@ function getAddresses(){
 	Ordrin.u.getAddress("", function(data){
 		if (data == "[]"){ // the user has no addresses so push the create address dialog
 			console.log("data");
-			$("body").append("<a href = '#createAddress' data-rel = 'dialog' id = 'removeMe' data-transition = 'slidedown'></a>");
-			$("#removeMe").click().remove();
+			openDialog("body", "createAddress", "slidedown");
 			$("#createAddress_btn").click(function(){
 				var place = new Address($("#createAddressAddress").val(), $("#createAddressAddress2").val(), $("#createAddressCity").val(), $("#createAddressZip").val(), $("#createAddressState").val(), $("#createAddressPhone").val(), $("#createAddressName").val());
 				Ordrin.u.updateAddress(place, function(data){
@@ -93,7 +93,17 @@ function getAddresses(){
 			var place = new Address(data[0].addr, data[0].addr2, data[0].city, data[0].zip, data[0].state, data[0].phone, data[0].nick);
 			getRestaurantlist(place, "ASAP");
 		}else{ // the user has more than 1 address so open a dialog to let them choose which address to use and the get the restaurant list. Possibly save their choice?
-			
+			openDialog("body", "selectAddress", "slidedown");
+			$("#selectAddress").bind("pageshow", {"data": data}, function(event){
+				var markup = "<li><a href = '#restaurant' onclick = 'getRestaurantList(new Address(\"${addr}\", \"${addr2}\", \"${city}\", \"${zip}\", \"${state}\", \"${phone}\", \"${nick}\"))'>${nick}</a></li>";
+				$.template("addrListTemp", markup);
+				$.tmpl("addrListTemp", data).appendTo("#addressList");
+				$("#addressList").listview("refresh");
+			});
 		}
 	});
+}
+function openDialog(parent, name, transition){
+	$(parent).append("<a href = '#" + name + "' data-rel = 'dialog' id = 'removeMe' data-transition = '" + transition + "'></a>");
+	$("#removeMe").click().remove();
 }
