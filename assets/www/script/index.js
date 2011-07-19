@@ -60,9 +60,6 @@ $(window).load(function(){
 			}
 		});
 	});
-	$("#login").load(function(){
-		console.log("login");
-	})
 });
 function getAddresses(){
 	Ordrin.u.getAddress("", function(data){
