@@ -18,15 +18,15 @@
 <!-- Jquery Mobile -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script type = "text/javascript" charset="utf-8" src = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.js"></script>
-<link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.css" />
+<script type = "text/javascript" charset="utf-8" src = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
+<link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
 <!-- Application logic -->
 <script type = "text/javascript" charset="utf-8" src = "script/index.js"></script>
 <link rel = "stylesheet" href = "css/main.css" />
 
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
-    <li onclick="getRestDetails('${index}')" class = 'restaurantListItem' id = 'restaurant${index}'>
-    	<a style="width: 85%;">
+    <li onclick="getRestDetails('${index}')" id = 'restaurant${index}'>
+    	<a href="#" style = 'width: 85%'>
 			<h3 style="width:75%; white-space:normal">${na}</h3>
 			<p>${ad}</p>
 			{{if isDel}}

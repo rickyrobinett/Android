@@ -101,8 +101,12 @@ $(window).load(function(){
 		});
 	});
 	// hack to make sure that previously clicked user buttons get unclicked
-	$("#restaurant").bind("pagebeforesshow", deactivateButtons());
-	$("#restDetails").bind("pagebeforeshow", deactivateButtons());
+	$("#restaurant").bind("pagebeforeshow", function(){
+		$(".ui-btn-active").removeClass("ui-btn-active");
+	});
+	$("#restDetails").bind("pagebeforeshow",function(){
+		$(".ui-btn-active").removeClass("ui-btn-active");
+	});
 });
 
 function getAddresses(){
