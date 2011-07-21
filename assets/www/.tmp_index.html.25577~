@@ -27,7 +27,7 @@
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
     <li onclick="getRestDetails('${index}')">
     	<a style="width: 85%;">
-			<h3 style="width:75%; white-space:normal">${na}</h3>
+			<h3 style="width:75%">${na}</h3>
 			<p>${ad}</p>
 			{{if isDel}}
 				<p class="ui-li-aside" style="float:right; width=25%; padding-top:8px;"><strong>Delivering Now</strong></p>
@@ -36,22 +36,6 @@
 			{{/if}}
 		</a>
     </li>
-</script>
-<script id="menuListTemplate" type="text/x-jquery-tmpl">
-	<li>
-		<b>${name}</b>
-		<ul>
-		{{each children}}
-			<li>
-				<div style="width:80%; white-space:normal">
-					<h3>${name}</h3>
-					<p style="white-space: normal;">${descrip}</p>
-				</div>
-				<p class="ui-li-aside" style="flat:right; padding-top:8px; width: 20%;">$ ${price}</p>
-			</li>
-			{{/each}}
-		</ul>
-	</li>
 </script>
 
 </head>
@@ -168,15 +152,11 @@
 					</fieldset>
 				</div>
 			</div>
-			<br />
-			<li data-role="listview" id="menu">
-			</li>
-		</div>
-	</div>
 	<div data-role = "page" id = "selectAddress">
 		<div data-role = "header"><h1>Select Address</h1></div>
 		<div data-role = "content">
 			<ul data-role = "listview" id = "addressList">
+				
 			</ul>
 		</div>
 	</div>

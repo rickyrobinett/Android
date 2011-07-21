@@ -116,23 +116,26 @@ function getRestaurantList(place, time){
 	})
 }
 
-<<<<<<< HEAD
+
 function getRestDetails(index){
 	$.mobile.pageLoading();
 	var currRest = delList[index];
 	Ordrin.r.details(currRest.id, function(data){
 		data = JSON.parse(data);
 		$("#restName").html(data.name);
-		$("#rAddress").html(data.addr + " " + data.city + ", " + data.state + " " +data.postal_code);
+		$("#rAddress").html(data.addr + " " + data.city + ", " + data.state + " " + data.postal_code);
 		$("#minimumDelivery").html("$" + currRest.mino);
 		$("#estimatedDelivery").html(currRest.del ? currRest.del : "0" + " minutes");
+		$("#menu").html('');
+		$("#menuListTemplate").tmpl(data.menu).appendTo("#menu");
 		$.mobile.changePage("#restDetails");
+		$("#menu").listview('refresh');
 	});
-=======
+}
+
 function error(msg){
 	$.mobile.pageLoading(true);
 	$("body").append("<a href = '#error' data-rel = 'dialog' id = 'removeMe'></a>");
 	$("#removeMe").click().remove();
 	$("#errorMsg").html(msg);
->>>>>>> a190aca04727af8d57ef11a58e506058be17bdfd
 }
