@@ -25,7 +25,7 @@
 <link rel = "stylesheet" href = "css/main.css" />
 
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
-    <li onclick="getRestDetails('${index}')">
+    <li onclick="getRestDetails('${index}')" class = 'restaurantListItem' id = 'restaurant${index}'>
     	<a style="width: 85%;">
 			<h3 style="width:75%; white-space:normal">${na}</h3>
 			<p>${ad}</p>
@@ -58,7 +58,14 @@
 <body>
 	
 	<div data-role = "page" id = "restaurant">
-		<div data-role = "header"><h1>Ordr.in</h1></div>
+		<div data-role = "header">
+			<h1>Ordr.in</h1>
+			<a href = "#" id = 'restaurantSelectorParent' class = 'ui-btn-right'>
+				<select name="select-choice-a" id="restaurantTypes_selector" data-native-menu="false">
+					<option value = "all">All</option>
+				</select>
+			</a>
+		</div>
 		<div data-role = "content">
 			<ul data-role="listview" id="restList" data-theme="c">
 			</ul>
