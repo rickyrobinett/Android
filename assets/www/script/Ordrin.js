@@ -83,7 +83,7 @@ Ordrin = {
           	if (this.readyState == 4){
           		if (this.status == 200){
           			func(this.responseText); 
-          			console.log("response: " + this.responseText);
+          			//console.log("response: " + this.responseText);
           		}else{
           			errorFunc(this.status);
           		}

@@ -6,7 +6,7 @@
  * 		 Switch to opening dialogs with new functions
  */
 // application globals
-var currEmail, currPass, delList, storage;
+var currEmail, currPass, delList, storage, currMenu, currRest, currItem;
 $(window).load(function(){
 	storage = window.localStorage; // currently all saved user preferences are saved here. We may switch to a full blown database if this gets too unwieldy
 	Ordrin.initialize("shds1d6c4BGDGs8", "http://nn2.deasil.com"); // for now this will be deasil
@@ -177,7 +177,7 @@ function getRestaurantList(place, time){
 			}
 		}
 		for (i in restTypes){
-			console.log("<option value = '" + i + "'>" + restTypes[i] + "></option>");
+			//console.log("<option value = '" + i + "'>" + restTypes[i] + "></option>");
 			$("#restaurantTypes_selector").append("<option value = '" + i + "'>" + i + " (" + restTypes[i] + ")" + "</option>");
 		}
 		$("#restaurantTypes_selector").selectmenu('refresh', true);
@@ -192,9 +192,12 @@ function storeUser(email, pass){
 
 function getRestDetails(index){
 	$.mobile.pageLoading();
-	var currRest = delList[index];
+	currRest = delList[index];
 	Ordrin.r.details(currRest.id, function(data){
 		data = JSON.parse(data);
+		for(var i = 0; i < data.menu.length; i++) {
+			data.menu[i].index = i;
+		}
 		$("#restName").html(data.name);
 		$("#rAddress").html(data.addr + " " + data.city + ", " + data.state + " " + data.postal_code);
 		$("#minimumDelivery").html("$" + currRest.mino);
@@ -202,8 +205,14 @@ function getRestDetails(index){
 		$("#menu").html('');
 		$("#menuListTemplate").tmpl(data.menu).appendTo("#menu");
 		$.mobile.changePage("#restDetails");
+		currRest = data;
+		console.log(currRest);
 		$("#menu").listview('refresh');
 	});
+}
+
+function setCurrMenu(index) {
+	currMenu = index;
 }
 
 function error(msg){
@@ -214,4 +223,69 @@ function error(msg){
 }
 function deactivateButtons(){
 	$(".ui-btn-active").removeClass("ui-btn-active");
+}
+
+function populateExtras(index){
+	for (var i = 0; i < currRest.menu[currMenu].children.length; i++) {
+		if (currRest.menu[currMenu].children[i].id == index) {
+			currItem = currRest.menu[currMenu].children[i];
+			break;
+		}
+	}
+	console.log(currItem);
+	if (currItem.children) {
+		$("#extrasForm").html('');
+		var list = $('<ul>', {
+			"data-role": "listview",
+			"id": "extrasList"
+		});
+		$("#extrasHeader").html(currItem.name);
+		$("#extrasTemplate").tmpl(currItem.children).appendTo(list);
+		$("#extrasForm").append(list);
+		$(list).page();
+		$.mobile.changePage("#menuExtras");
+		//$("#extrasList").listview("refresh");
+	}	
+}
+
+function validateForm() {
+	var object = serializeObject($("#extrasForm"));
+	var errors = []
+	console.log(object);
+	$.each(currItem.children, function() {
+		console.log(this);
+		var min = this.min_child_select,
+			max = this.max_child_select,
+			min_id = this.children[0].id,
+			max_id = this.children[this.children.length-1].id,
+			totalExtras =0;
+		if(!min && !max) return;
+		for(var i = min_id; i<=max_id; i++) {
+			if(object[i]) {totalExtras++;}
+		}
+		if(min && totalExtras < min) {
+			errors.push('You must select at least ' + min + ' extras');
+		}
+		if (max && totalExtras > max) {
+			errors.push('You can not select more than ' + max + ' extras');
+		}
+		//totalExtras....
+	});
+	console.log(errors);
+}
+
+function serializeObject(form) {
+    var o = {};
+    var a = form.serializeArray();
+    $.each(a, function() {
+        if (o[this.name.replace("extra_", "")] !== undefined) {
+            if (!o[this.name.replace("extra_", "")].push) {
+                o[this.name.replace("extra_", "")] = [o[this.name.replace("extra_", "")]];
+            }
+            o[this.name.replace("extra_", "")].push(this.value || '');
+        } else {
+            o[this.name.replace("extra_", "")] = this.value || '';
+        }
+    });
+    return o;
 }

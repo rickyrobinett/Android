@@ -22,6 +22,7 @@
 <link rel = "stylesheet" href = "http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
 <!-- Application logic -->
 <script type = "text/javascript" charset="utf-8" src = "script/index.js"></script>
+<link rel="stylesheet" href="css/styles.css" />
 <link rel = "stylesheet" href = "css/main.css" />
 
 <script id="restListTemplate" type="text/x-jquery-tmpl"> 
@@ -38,11 +39,11 @@
     </li>
 </script>
 <script id="menuListTemplate" type="text/x-jquery-tmpl">
-	<li>
+	<li onclick="setCurrMenu('${index}')">
 		<b>${name}</b>
-		<ul>
+		<ul data-inset="true">
 		{{each children}}
-			<li>
+			<li onclick="populateExtras('${id}')">
 				<div style="width:80%; white-space:normal">
 					<h3>${name}</h3>
 					<p style="white-space: normal;">${descrip}</p>
@@ -52,6 +53,17 @@
 			{{/each}}
 		</ul>
 	</li>
+</script>
+<script id="extrasTemplate" type="text/x-jquery-tmpl">
+	<li data-role="list-divider" id="name">${name} Chose ${max_child_select}</li>
+	<li data-role="fieldcontain">
+		<fieldset data-role="controlgroup">
+		{{each children}}
+			<input type="checkbox" id="extra_${id}" name="extra_${id}" class="custom"/>
+			<label for="extra_${id}">${name}&nbsp;&nbsp;&nbsp;$${price}</label>
+		{{/each}}
+		</fieldset>
+	</li>		
 </script>
 
 </head>
@@ -67,7 +79,7 @@
 			</a>
 		</div>
 		<div data-role = "content">
-			<ul data-role="listview" id="restList" data-theme="c">
+			<ul data-role="listview" id="restList">
 			</ul>
 		</div>
 	</div>
@@ -176,7 +188,7 @@
 				</div>
 			</div>
 			<br />
-			<li data-role="listview" id="menu">
+			<li data-role="listview" id="menu" data-inset="true">
 			</li>
 		</div>
 	</div>
@@ -185,6 +197,15 @@
 		<div data-role = "content">
 			<ul data-role = "listview" id = "addressList">
 			</ul>
+		</div>
+	</div>
+	<div data-role="page" id="menuExtras">
+		<div data-role = "header"><h1 id="extrasHeader"></h1></div>
+		<div data-role = "content" id="extraContent">
+			<form id="extrasForm">
+			</form>
+			<br />
+			<input type="button" id="submitExtras" value="Ok" onclick="validateForm();" />
 		</div>
 	</div>
 </body>
